@@ -113,5 +113,5 @@ Werkzeug==2.1.2
 wrapt==1.12.1
 zipp==3.8.0
 etils
-jax[cuda12]==0.4.6
-jaxlib==0.4.6
+jax[cuda11]
+jaxlib
