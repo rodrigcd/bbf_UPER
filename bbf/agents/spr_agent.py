@@ -36,8 +36,8 @@ import numpy as onp
 import optax
 import tensorflow as tf
 
-from bigger_better_faster.bbf import spr_networks
-from bigger_better_faster.bbf.replay_memory import subsequence_replay_buffer
+from bbf import spr_networks
+from bbf.replay_memory import subsequence_replay_buffer
 
 
 def _pmap_device_order():
