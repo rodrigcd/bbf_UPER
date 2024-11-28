@@ -1,11 +1,11 @@
 import os
 BASE_PATH = "/nfs/nhome/live/rcdavis/bbf_UPER/"
 
-def file_header_text(game, run, exp_name):
+def file_header_text(game, run, exp_name, script_id):
     text = "#!/bin/bash\n"
-    text += f"#SBATCH --job-name={game}_{exp_name}_{run}\n"
-    text += f"#SBATCH --output={game}_{exp_name}_{run}_out.log\n"
-    text += f"#SBATCH --error={game}_{exp_name}_{run}_error.log\n"
+    text += f"#SBATCH --job-name=bbf_{script_id}\n"
+    text += f"#SBATCH --output=bbf_{script_id}_out.log\n"
+    text += f"#SBATCH --error=bbf_{script_id}_error.log\n"
     text += "#SBATCH -p gpu_saxe\n"
     text += "#SBATCH -N 1\n"
     text += "#SBATCH --mem=10G\n"
@@ -59,7 +59,7 @@ def main():
     for run in range(1, n_runs+1):
         for game in games:
             print(f"Generating script for {game} run {run}")
-            header = file_header_text(game, run, exp_name)
+            header = file_header_text(game, run, exp_name, script_number)
             script = generate_script(game, run, exp_name)
             file_name = f"scripts/baseline_bbf{script_number}.slurm"
             print(header)

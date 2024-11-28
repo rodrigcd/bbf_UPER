@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH --job-name=Centipede_baseline_3
-#SBATCH --output=Centipede_baseline_3_out.log
-#SBATCH --error=Centipede_baseline_3_error.log
+#SBATCH --job-name=bbf_17
+#SBATCH --output=bbf_17_out.log
+#SBATCH --error=bbf_17_error.log
 #SBATCH -p gpu_saxe
 #SBATCH -N 1
 #SBATCH --mem=10G

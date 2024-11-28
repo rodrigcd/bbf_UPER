@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH --job-name=Asterix_baseline_1
-#SBATCH --output=Asterix_baseline_1_out.log
-#SBATCH --error=Asterix_baseline_1_error.log
+#SBATCH --job-name=bbf_0
+#SBATCH --output=bbf_0_out.log
+#SBATCH --error=bbf_0_error.log
 #SBATCH -p gpu_saxe
 #SBATCH -N 1
 #SBATCH --mem=10G

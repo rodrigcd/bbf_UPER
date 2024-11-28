@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH --job-name=Assault_baseline_2
-#SBATCH --output=Assault_baseline_2_out.log
-#SBATCH --error=Assault_baseline_2_error.log
+#SBATCH --job-name=bbf_9
+#SBATCH --output=bbf_9_out.log
+#SBATCH --error=bbf_9_error.log
 #SBATCH -p gpu_saxe
 #SBATCH -N 1
 #SBATCH --mem=10G

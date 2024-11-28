@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH --job-name=Amidar_baseline_3
-#SBATCH --output=Amidar_baseline_3_out.log
-#SBATCH --error=Amidar_baseline_3_error.log
+#SBATCH --job-name=bbf_19
+#SBATCH --output=bbf_19_out.log
+#SBATCH --error=bbf_19_error.log
 #SBATCH -p gpu_saxe
 #SBATCH -N 1
 #SBATCH --mem=10G

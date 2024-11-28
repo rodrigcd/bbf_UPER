@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH --job-name=BeamRider_baseline_2
-#SBATCH --output=BeamRider_baseline_2_out.log
-#SBATCH --error=BeamRider_baseline_2_error.log
+#SBATCH --job-name=bbf_11
+#SBATCH --output=bbf_11_out.log
+#SBATCH --error=bbf_11_error.log
 #SBATCH -p gpu_saxe
 #SBATCH -N 1
 #SBATCH --mem=10G

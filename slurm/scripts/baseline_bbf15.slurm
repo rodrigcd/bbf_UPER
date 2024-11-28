@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH --job-name=ChopperCommand_baseline_3
-#SBATCH --output=ChopperCommand_baseline_3_out.log
-#SBATCH --error=ChopperCommand_baseline_3_error.log
+#SBATCH --job-name=bbf_15
+#SBATCH --output=bbf_15_out.log
+#SBATCH --error=bbf_15_error.log
 #SBATCH -p gpu_saxe
 #SBATCH -N 1
 #SBATCH --mem=10G

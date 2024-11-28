@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH --job-name=Phoenix_baseline_1
-#SBATCH --output=Phoenix_baseline_1_out.log
-#SBATCH --error=Phoenix_baseline_1_error.log
+#SBATCH --job-name=bbf_6
+#SBATCH --output=bbf_6_out.log
+#SBATCH --error=bbf_6_error.log
 #SBATCH -p gpu_saxe
 #SBATCH -N 1
 #SBATCH --mem=10G
