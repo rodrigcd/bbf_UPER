@@ -35,12 +35,12 @@ def generate_script(game, run, exp_name):
     gin_path = os.path.join(BASE_PATH, "bbf/configs/BBF.gin")
     results_path = os.path.join(BASE_PATH, "results/"+run_name)
 
-    all_text = f"python -m bbf.train \\ \n"
-    all_text += f"    --agent=BBF \\ \n"
-    all_text += f"    --gin_files={gin_path} \\ \n"
-    all_text += f"    --base_dir={results_path} \\ \n"
-    all_text += f"    --run_number={run} \\ \n"
-    all_text += f"    --game_name={game} \n"
+    all_text = f"python -m bbf.train "
+    all_text += f"--agent=BBF "
+    all_text += f"--gin_files={gin_path} "
+    all_text += f"--base_dir={results_path} "
+    all_text += f"--run_number={run} "
+    all_text += f"--game_name={game} "
     all_text += f"\n"
     return all_text
 
