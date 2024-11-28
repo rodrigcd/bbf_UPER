@@ -61,6 +61,7 @@ flags.DEFINE_enum('agent', 'SPR', AGENTS, 'Name of the agent.')
 flags.DEFINE_integer('run_number', 1, 'Run number.')
 flags.DEFINE_integer('agent_seed', None, 'If None, use the run_number.')
 flags.DEFINE_boolean('no_seeding', True, 'If True, choose a seed at random.')
+flags.DEFINE_string('game_name', 'Pong', 'Name of the game.')
 flags.DEFINE_string(
     'load_replay_dir', None, 'Directory to load the initial replay buffer from '
     'a fixed dataset. If None, no transitions are loaded. ')
@@ -228,7 +229,7 @@ def main(unused_argv):
         load_replay_dir=FLAGS.load_replay_dir, save_replay=FLAGS.save_replay)
     runner_fn = eval_run_experiment.DataEfficientAtariRunner
     logging.info('Using MaxEpisodeEvalRunner for evaluation.')
-    kwargs = {}  # No additional flags should be passed.
+    kwargs = {"game_name": FLAGS.game_name}  # No additional flags should be passed.
     runner = runner_fn(base_dir, create_agent_fn, **kwargs)
   else:
     runner = run_experiment.Runner(base_dir, create_agent_fn)
