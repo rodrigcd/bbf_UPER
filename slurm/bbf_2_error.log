@@ -1,0 +1,268 @@
+2024-11-28 23:17:39.640981: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-11-28 23:17:39.716679: I tensorflow/core/util/port.cc:104] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2024-11-28 23:17:41.330847: W tensorflow/compiler/xla/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /nfs/nhome/live/rcdavis/.local/miniforge/envs/bbf2/lib/python3.9/site-packages/cv2/../../lib64:/ceph/apps/ubuntu-20/packages/cuda/11.8.0_520.61.05/lib64
+2024-11-28 23:17:41.330894: W tensorflow/compiler/xla/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /nfs/nhome/live/rcdavis/.local/miniforge/envs/bbf2/lib/python3.9/site-packages/cv2/../../lib64:/ceph/apps/ubuntu-20/packages/cuda/11.8.0_520.61.05/lib64
+2024-11-28 23:17:41.330899: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+/nfs/nhome/live/rcdavis/.local/miniforge/envs/bbf2/lib/python3.9/site-packages/gin/tf/__init__.py:48: DeprecationWarning: distutils Version classes are deprecated. Use packaging.version instead.
+  if (distutils.version.LooseVersion(tf.__version__) <
+2024-11-28 23:17:47.953669: W tensorflow/core/common_runtime/gpu/gpu_device.cc:2027] TensorFlow was not built with CUDA kernel binaries compatible with compute capability 9.0. CUDA kernels will be jit-compiled from PTX, which could take 30 minutes or longer.
+I1128 23:17:47.954537 140136016561984 train.py:172] Setting random seed: 1738704130
+I1128 23:17:48.059474 140136016561984 train.py:231] Using MaxEpisodeEvalRunner for evaluation.
+W1128 23:17:48.059666 140136016561984 run_experiment.py:267] DEPRECATION WARNING: Logger is being deprecated. Please switch to CollectorDispatcher!
+A.L.E: Arcade Learning Environment (version 0.7.5+db37282)
+[Powered by Stella]
+/nfs/nhome/live/rcdavis/.local/miniforge/envs/bbf2/lib/python3.9/site-packages/gym/core.py:317: DeprecationWarning: [33mWARN: Initializing wrapper in old step API which returns one bool instead of two. It is recommended to set `new_step_api=True` to use new step API. This will be the default behaviour in future.[0m
+  deprecation(
+/nfs/nhome/live/rcdavis/.local/miniforge/envs/bbf2/lib/python3.9/site-packages/gym/wrappers/step_api_compatibility.py:39: DeprecationWarning: [33mWARN: Initializing environment in old step API which returns one bool instead of two. It is recommended to set `new_step_api=True` to use new step API. This will be the default behaviour in future.[0m
+  deprecation(
+I1128 23:17:48.160503 140136016561984 spr_agent.py:1123] Creating BBFAgent agent with the following parameters:
+I1128 23:17:48.160701 140136016561984 spr_agent.py:1127] 	 double_dqn: True
+I1128 23:17:48.160726 140136016561984 spr_agent.py:1128] 	 noisy_networks: False
+I1128 23:17:48.160746 140136016561984 spr_agent.py:1129] 	 dueling_dqn: True
+I1128 23:17:48.160763 140136016561984 spr_agent.py:1130] 	 distributional: True
+I1128 23:17:48.160779 140136016561984 spr_agent.py:1131] 	 data_augmentation: True
+I1128 23:17:48.160794 140136016561984 spr_agent.py:1132] 	 replay_scheme: prioritized
+I1128 23:17:48.160809 140136016561984 spr_agent.py:1133] 	 num_updates_per_train_step: 1
+I1128 23:17:48.162660 140136016561984 xla_bridge.py:355] Unable to initialize backend 'tpu_driver': NOT_FOUND: Unable to find driver in registry given worker: 
+I1128 23:17:49.365307 140136016561984 xla_bridge.py:355] Unable to initialize backend 'rocm': NOT_FOUND: Could not find registered platform with name: "rocm". Available platform names are: Host CUDA Interpreter
+I1128 23:17:49.365663 140136016561984 xla_bridge.py:355] Unable to initialize backend 'tpu': module 'jaxlib.xla_extension' has no attribute 'get_tpu_client'
+I1128 23:17:49.365722 140136016561984 xla_bridge.py:355] Unable to initialize backend 'plugin': xla_extension has no attributes named get_plugin_device_client. Compile TensorFlow with //tensorflow/compiler/xla/python:enable_plugin_device set to true (defaults to false) to enable this.
+I1128 23:17:50.235552 140136016561984 spr_agent.py:1218] 	 Found following local devices: [StreamExecutorGpuDevice(id=0, process_index=0, slice_index=0)]
+I1128 23:17:50.235684 140136016561984 spr_agent.py:1233] 	 Running with dtype <class 'jax.numpy.float32'>
+I1128 23:17:50.235772 140136016561984 dqn_agent.py:278] Creating BBFAgent agent with the following parameters:
+I1128 23:17:50.235799 140136016561984 dqn_agent.py:280] 	 gamma: 0.997000
+I1128 23:17:50.235820 140136016561984 dqn_agent.py:281] 	 update_horizon: 10.000000
+I1128 23:17:50.235838 140136016561984 dqn_agent.py:282] 	 min_replay_history: 2000
+I1128 23:17:50.235855 140136016561984 dqn_agent.py:283] 	 update_period: 1
+I1128 23:17:50.235870 140136016561984 dqn_agent.py:284] 	 target_update_period: 1
+I1128 23:17:50.235885 140136016561984 dqn_agent.py:285] 	 epsilon_train: 0.000000
+I1128 23:17:50.235900 140136016561984 dqn_agent.py:286] 	 epsilon_eval: 0.001000
+I1128 23:17:50.235915 140136016561984 dqn_agent.py:287] 	 epsilon_decay_period: 2001
+I1128 23:17:50.235931 140136016561984 dqn_agent.py:288] 	 optimizer: adam
+I1128 23:17:50.235945 140136016561984 dqn_agent.py:289] 	 seed: 1738704130
+I1128 23:17:50.235960 140136016561984 dqn_agent.py:290] 	 loss_type: mse
+I1128 23:17:50.235976 140136016561984 dqn_agent.py:291] 	 preprocess_fn: None
+I1128 23:17:50.428953 140136016561984 subsequence_replay_buffer.py:159] Creating a PrioritizedJaxSubsequenceParallelEnvReplayBuffer replay memory with the following parameters:
+I1128 23:17:50.429069 140136016561984 subsequence_replay_buffer.py:161] 	 observation_shape: (84, 84)
+I1128 23:17:50.429097 140136016561984 subsequence_replay_buffer.py:162] 	 observation_dtype: <class 'jax.numpy.uint8'>
+I1128 23:17:50.429119 140136016561984 subsequence_replay_buffer.py:163] 	 terminal_dtype: <class 'numpy.uint8'>
+I1128 23:17:50.429136 140136016561984 subsequence_replay_buffer.py:164] 	 stack_size: 4
+I1128 23:17:50.429154 140136016561984 subsequence_replay_buffer.py:165] 	 use_next_state: 1
+I1128 23:17:50.429171 140136016561984 subsequence_replay_buffer.py:166] 	 replay_capacity: 200000
+I1128 23:17:50.429186 140136016561984 subsequence_replay_buffer.py:167] 	 batch_size: 32
+I1128 23:17:50.429201 140136016561984 subsequence_replay_buffer.py:168] 	 update_horizon: 10
+I1128 23:17:50.429215 140136016561984 subsequence_replay_buffer.py:169] 	 gamma: 0.997000
+I1128 23:17:53.315134 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1128 23:17:53.326604 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1128 23:17:54.761316 140136016561984 spr_networks.py:821] Spatial latent shape: (5, 11, 11, 128)
+I1128 23:17:54.773619 140136016561984 spr_networks.py:828] Flattened representation shape: (5, 15488)
+I1128 23:17:55.339216 140136016561984 spr_agent.py:933] Creating AdamW optimizer with settings lr=0.000100, beta1=0.900000, beta2=0.999000, eps=0.000150, wd=0.100000
+I1128 23:17:55.339438 140136016561984 spr_agent.py:933] Creating AdamW optimizer with settings lr=0.000100, beta1=0.900000, beta2=0.999000, eps=0.000150, wd=0.100000
+I1128 23:17:55.808459 140136016561984 spr_agent.py:1366] 	 Operating with 1 environments, batch size 32 and replay ratio 64
+I1128 23:17:55.808571 140136016561984 spr_agent.py:1374] 	 Calculated 2 updates per update phase
+I1128 23:17:55.808606 140136016561984 spr_agent.py:1378] 	 Calculated update frequency of 1 step
+I1128 23:17:55.808629 140136016561984 spr_agent.py:1383] 	 Setting min_replay_history to 2000.0 from 2000
+I1128 23:17:55.808649 140136016561984 spr_agent.py:1388] 	 Setting epsilon_decay_period to 2001.0 from 2001
+I1128 23:17:55.808674 140136016561984 spr_agent.py:1401] 	 Running 1 groups of 2 batches per 1 env step
+I1128 23:17:55.811199 140136016561984 eval_run_experiment.py:204] Num evaluation episodes: 100
+/nfs/nhome/live/rcdavis/.local/miniforge/envs/bbf2/lib/python3.9/site-packages/gym/utils/passive_env_checker.py:227: DeprecationWarning: [33mWARN: Core environment is written in old step API which returns one bool instead of two. It is recommended to rewrite the environment with new step API. [0m
+  logger.deprecation(
+I1128 23:17:56.022154 140136016561984 eval_run_experiment.py:622] Beginning training...
+I1128 23:17:56.022279 140136016561984 eval_run_experiment.py:553] Starting iteration 0
+I1128 23:17:56.156170 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1128 23:17:56.156421 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1128 23:18:01.188727 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1128 23:18:01.189075 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1128 23:18:01.332575 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1128 23:18:01.332843 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1128 23:18:01.509667 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1128 23:18:01.509976 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1128 23:18:01.674143 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1128 23:18:01.674449 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1128 23:18:01.765784 140136016561984 spr_networks.py:821] Spatial latent shape: (5, 11, 11, 128)
+I1128 23:18:01.766279 140136016561984 spr_networks.py:828] Flattened representation shape: (5, 15488)
+I1128 23:18:15.386352 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1128 23:18:15.386618 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1128 23:32:11.564961 140136016561984 spr_agent.py:1473] 	 Resetting weights at step 20002.
+I1128 23:32:11.672735 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1128 23:32:11.672945 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1128 23:32:11.725738 140136016561984 spr_networks.py:821] Spatial latent shape: (5, 11, 11, 128)
+I1128 23:32:11.725969 140136016561984 spr_networks.py:828] Flattened representation shape: (5, 15488)
+I1128 23:32:11.839439 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1128 23:32:11.839653 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1128 23:32:11.892675 140136016561984 spr_networks.py:821] Spatial latent shape: (5, 11, 11, 128)
+I1128 23:32:11.892915 140136016561984 spr_networks.py:828] Flattened representation shape: (5, 15488)
+I1128 23:32:13.369319 140136016561984 spr_agent.py:1537] Running 0 gradient steps after reset
+I1128 23:47:44.629801 140136016561984 spr_agent.py:1473] 	 Resetting weights at step 40003.
+I1128 23:47:44.636149 140136016561984 spr_agent.py:1537] Running 0 gradient steps after reset
+I1129 00:03:18.371412 140136016561984 spr_agent.py:1473] 	 Resetting weights at step 60004.
+I1129 00:03:18.377293 140136016561984 spr_agent.py:1537] Running 0 gradient steps after reset
+I1129 00:18:50.328837 140136016561984 spr_agent.py:1466] 	 Not resetting at step 80005, as need at least 20000 before 100000 to recover.
+I1129 00:34:21.298538 140136016561984 eval_run_experiment.py:493] Average undiscounted return per training episode: 897.76
+I1129 00:34:21.298794 140136016561984 eval_run_experiment.py:496] Average normalized return per training episode: 1.30
+I1129 00:34:21.298828 140136016561984 eval_run_experiment.py:499] Average training steps per second: 21.39
+I1129 00:34:32.217094 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:34:32.217446 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:35:21.727014 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:35:21.727373 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:35:27.264489 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:35:27.264756 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:35:33.268999 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:35:33.269286 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:35:34.963627 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:35:34.963962 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:35:37.821311 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:35:37.821588 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:35:39.045613 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:35:39.045883 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:35:40.441177 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:35:40.441445 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:35:42.400870 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:35:42.401130 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:35:43.620273 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:35:43.620579 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:35:44.934514 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:35:44.934781 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:35:46.811084 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:35:46.811354 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:35:48.116836 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:35:48.117111 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:35:49.566478 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:35:49.566747 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:35:50.986920 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:35:50.987190 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:35:52.111947 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:35:52.112205 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:35:53.457584 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:35:53.457848 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:01.327500 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:01.327767 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:02.698262 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:02.698543 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:04.013479 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:04.013757 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:05.380488 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:05.380744 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:07.100661 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:07.101009 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:08.320146 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:08.320416 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:12.333899 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:12.334164 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:14.608569 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:14.608835 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:15.798450 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:15.798718 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:17.233710 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:17.233985 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:18.701183 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:18.701450 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:20.128305 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:20.128581 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:21.998634 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:21.998909 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:24.229761 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:24.230028 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:26.400226 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:26.400521 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:28.383644 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:28.383906 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:31.566715 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:31.566981 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:33.018580 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:33.018850 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:34.338960 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:34.339225 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:37.177870 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:37.178143 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:39.101616 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:39.101881 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:40.394220 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:40.394485 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:41.738787 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:41.739059 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:43.429148 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:43.429414 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:48.507978 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:48.508258 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:49.812117 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:49.812382 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:51.577745 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:51.578092 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:54.032178 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:54.032459 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:55.225967 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:55.226229 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:57.359711 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:57.359979 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:58.477755 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:58.478056 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:36:59.771599 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:36:59.771891 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:01.199843 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:01.200103 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:02.798618 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:02.798882 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:04.890344 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:04.890607 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:06.321323 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:06.321592 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:07.216997 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:07.217262 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:08.722737 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:08.723006 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:09.718230 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:09.718488 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:12.642149 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:12.642413 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:13.860583 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:13.860850 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:15.253432 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:15.253691 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:16.611790 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:16.612055 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:17.687441 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:17.687721 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:18.635914 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:18.636184 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:19.830187 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:19.830467 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:20.996686 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:20.996959 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:23.176311 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:23.176584 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:24.559214 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:24.559491 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:26.124191 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:26.124481 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:27.662204 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:27.662557 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:29.035506 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:29.035774 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:30.309210 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:30.309494 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:31.931928 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:31.932191 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:33.535308 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:33.535588 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:35.006695 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:35.006971 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:36.356092 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:36.356368 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:37.589135 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:37.589408 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:39.012311 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:39.012614 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:40.252554 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:40.252820 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:41.394550 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:41.394828 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:42.716689 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:42.716958 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:43.843671 140136016561984 spr_networks.py:821] Spatial latent shape: (11, 11, 128)
+I1129 00:37:43.843949 140136016561984 spr_networks.py:828] Flattened representation shape: (15488,)
+I1129 00:37:44.737262 140136016561984 eval_run_experiment.py:537] Average undiscounted return per evaluation episode: 1611.40
+I1129 00:37:44.737402 140136016561984 eval_run_experiment.py:544] Average normalized return per evaluation episode: 2.67
+/nfs/nhome/live/rcdavis/bbf_UPER/bbf/replay_memory/subsequence_replay_buffer.py:781: FutureWarning: GzipFile was opened for writing, but this will change in future Python releases.  Specify the mode argument for opening it for writing.
+  with gzip.GzipFile(fileobj=f) as outfile:

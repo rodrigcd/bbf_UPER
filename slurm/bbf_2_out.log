@@ -1,0 +1,382 @@
+Thu Nov 28 23:17:34 2024       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 560.35.03              Driver Version: 560.35.03      CUDA Version: 12.6     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 80GB HBM3          Off |   00000000:45:00.0 Off |                    0 |
+| N/A   29C    P0             70W /  700W |       1MiB /  81559MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+gpu
+Got gin bindings:
+[]
+Sanitized gin bindings to:
+[]
+Found devices [StreamExecutorGpuDevice(id=0, process_index=0, slice_index=0)]
+
+Steps executed: 684 Num episodes: 1 Episode length: 684 Return: 147.0 Normalized Return: -0.145
+
+Steps executed: 1154 Num episodes: 2 Episode length: 470 Return: 168.0 Normalized Return: -0.105
+
+Steps executed: 1735 Num episodes: 3 Episode length: 581 Return: 252.0 Normalized Return: 0.057
+
+Steps executed: 2117 Num episodes: 4 Episode length: 382 Return: 210.0 Normalized Return: -0.024
+
+Steps executed: 2572 Num episodes: 5 Episode length: 455 Return: 189.0 Normalized Return: -0.064
+
+Steps executed: 3169 Num episodes: 6 Episode length: 597 Return: 336.0 Normalized Return: 0.219
+
+Steps executed: 3557 Num episodes: 7 Episode length: 388 Return: 168.0 Normalized Return: -0.105
+
+Steps executed: 4388 Num episodes: 8 Episode length: 831 Return: 357.0 Normalized Return: 0.259
+
+Steps executed: 5543 Num episodes: 9 Episode length: 1155 Return: 231.0 Normalized Return: 0.017
+
+Steps executed: 6320 Num episodes: 10 Episode length: 777 Return: 315.0 Normalized Return: 0.178
+
+Steps executed: 7905 Num episodes: 11 Episode length: 1585 Return: 588.0 Normalized Return: 0.704
+
+Steps executed: 9118 Num episodes: 12 Episode length: 1213 Return: 651.0 Normalized Return: 0.825
+
+Steps executed: 10363 Num episodes: 13 Episode length: 1245 Return: 714.0 Normalized Return: 0.946
+
+Steps executed: 11704 Num episodes: 14 Episode length: 1341 Return: 692.0 Normalized Return: 0.904
+
+Steps executed: 12387 Num episodes: 15 Episode length: 683 Return: 231.0 Normalized Return: 0.017
+
+Steps executed: 13829 Num episodes: 16 Episode length: 1442 Return: 630.0 Normalized Return: 0.784
+
+Steps executed: 15440 Num episodes: 17 Episode length: 1611 Return: 693.0 Normalized Return: 0.906
+
+Steps executed: 16224 Num episodes: 18 Episode length: 784 Return: 315.0 Normalized Return: 0.178
+
+Steps executed: 17400 Num episodes: 19 Episode length: 1176 Return: 702.0 Normalized Return: 0.923
+
+Steps executed: 19000 Num episodes: 20 Episode length: 1600 Return: 682.0 Normalized Return: 0.885
+
+Steps executed: 20303 Num episodes: 21 Episode length: 1303 Return: 525.0 Normalized Return: 0.582
+
+Steps executed: 20973 Num episodes: 22 Episode length: 670 Return: 336.0 Normalized Return: 0.219
+
+Steps executed: 21596 Num episodes: 23 Episode length: 623 Return: 399.0 Normalized Return: 0.34
+
+Steps executed: 22339 Num episodes: 24 Episode length: 743 Return: 441.0 Normalized Return: 0.421
+
+Steps executed: 23022 Num episodes: 25 Episode length: 683 Return: 336.0 Normalized Return: 0.219
+
+Steps executed: 23790 Num episodes: 26 Episode length: 768 Return: 504.0 Normalized Return: 0.542
+
+Steps executed: 24877 Num episodes: 27 Episode length: 1087 Return: 672.0 Normalized Return: 0.865
+
+Steps executed: 25744 Num episodes: 28 Episode length: 867 Return: 462.0 Normalized Return: 0.461
+
+Steps executed: 26264 Num episodes: 29 Episode length: 520 Return: 336.0 Normalized Return: 0.219
+
+Steps executed: 27407 Num episodes: 30 Episode length: 1143 Return: 756.0 Normalized Return: 1.027
+
+Steps executed: 29074 Num episodes: 31 Episode length: 1667 Return: 734.0 Normalized Return: 0.985
+
+Steps executed: 30200 Num episodes: 32 Episode length: 1126 Return: 724.0 Normalized Return: 0.965
+
+Steps executed: 31240 Num episodes: 33 Episode length: 1040 Return: 724.0 Normalized Return: 0.965
+
+Steps executed: 32242 Num episodes: 34 Episode length: 1002 Return: 724.0 Normalized Return: 0.965
+
+Steps executed: 33356 Num episodes: 35 Episode length: 1114 Return: 735.0 Normalized Return: 0.987
+
+Steps executed: 34489 Num episodes: 36 Episode length: 1133 Return: 714.0 Normalized Return: 0.946
+
+Steps executed: 35838 Num episodes: 37 Episode length: 1349 Return: 889.0 Normalized Return: 1.283
+
+Steps executed: 38579 Num episodes: 38 Episode length: 2741 Return: 1846.0 Normalized Return: 3.125
+
+Steps executed: 40058 Num episodes: 39 Episode length: 1479 Return: 1130.0 Normalized Return: 1.747
+
+Steps executed: 40425 Num episodes: 40 Episode length: 367 Return: 189.0 Normalized Return: -0.064
+
+Steps executed: 41082 Num episodes: 41 Episode length: 657 Return: 315.0 Normalized Return: 0.178
+
+Steps executed: 41852 Num episodes: 42 Episode length: 770 Return: 504.0 Normalized Return: 0.542
+
+Steps executed: 42723 Num episodes: 43 Episode length: 871 Return: 567.0 Normalized Return: 0.663
+
+Steps executed: 43564 Num episodes: 44 Episode length: 841 Return: 651.0 Normalized Return: 0.825
+
+Steps executed: 44556 Num episodes: 45 Episode length: 992 Return: 661.0 Normalized Return: 0.844
+
+Steps executed: 45530 Num episodes: 46 Episode length: 974 Return: 745.0 Normalized Return: 1.006
+
+Steps executed: 46656 Num episodes: 47 Episode length: 1126 Return: 712.0 Normalized Return: 0.942
+
+Steps executed: 48067 Num episodes: 48 Episode length: 1411 Return: 1142.0 Normalized Return: 1.77
+
+Steps executed: 49570 Num episodes: 49 Episode length: 1503 Return: 1153.0 Normalized Return: 1.791
+
+Steps executed: 50416 Num episodes: 50 Episode length: 846 Return: 609.0 Normalized Return: 0.744
+
+Steps executed: 51432 Num episodes: 51 Episode length: 1016 Return: 766.0 Normalized Return: 1.046
+
+Steps executed: 54229 Num episodes: 52 Episode length: 2797 Return: 2371.0 Normalized Return: 4.135
+
+Steps executed: 55192 Num episodes: 53 Episode length: 963 Return: 912.0 Normalized Return: 1.327
+
+Steps executed: 57573 Num episodes: 54 Episode length: 2381 Return: 2151.0 Normalized Return: 3.712
+
+Steps executed: 58627 Num episodes: 55 Episode length: 1054 Return: 859.0 Normalized Return: 1.225
+
+Steps executed: 59941 Num episodes: 56 Episode length: 1314 Return: 1078.0 Normalized Return: 1.647
+
+Steps executed: 60598 Num episodes: 57 Episode length: 657 Return: 357.0 Normalized Return: 0.259
+
+Steps executed: 61591 Num episodes: 58 Episode length: 993 Return: 567.0 Normalized Return: 0.663
+
+Steps executed: 62625 Num episodes: 59 Episode length: 1034 Return: 693.0 Normalized Return: 0.906
+
+Steps executed: 63858 Num episodes: 60 Episode length: 1233 Return: 776.0 Normalized Return: 1.065
+
+Steps executed: 66157 Num episodes: 61 Episode length: 2299 Return: 1918.0 Normalized Return: 3.263
+
+Steps executed: 67093 Num episodes: 62 Episode length: 936 Return: 797.0 Normalized Return: 1.106
+
+Steps executed: 68852 Num episodes: 63 Episode length: 1759 Return: 1698.0 Normalized Return: 2.84
+
+Steps executed: 69760 Num episodes: 64 Episode length: 908 Return: 713.0 Normalized Return: 0.944
+
+Steps executed: 73051 Num episodes: 65 Episode length: 3291 Return: 2978.0 Normalized Return: 5.303
+
+Steps executed: 76073 Num episodes: 66 Episode length: 3022 Return: 2422.0 Normalized Return: 4.233
+
+Steps executed: 77065 Num episodes: 67 Episode length: 992 Return: 880.0 Normalized Return: 1.266
+
+Steps executed: 78630 Num episodes: 68 Episode length: 1565 Return: 1403.0 Normalized Return: 2.272
+
+Steps executed: 79659 Num episodes: 69 Episode length: 1029 Return: 828.0 Normalized Return: 1.166
+
+Steps executed: 80665 Num episodes: 70 Episode length: 1006 Return: 964.0 Normalized Return: 1.427
+
+Steps executed: 83511 Num episodes: 71 Episode length: 2846 Return: 2905.0 Normalized Return: 5.163
+
+Steps executed: 84864 Num episodes: 72 Episode length: 1353 Return: 1174.0 Normalized Return: 1.831
+
+Steps executed: 87347 Num episodes: 73 Episode length: 2483 Return: 2475.0 Normalized Return: 4.335
+
+Steps executed: 88289 Num episodes: 74 Episode length: 942 Return: 765.0 Normalized Return: 1.044
+
+Steps executed: 91358 Num episodes: 75 Episode length: 3069 Return: 3029.0 Normalized Return: 5.401
+
+Steps executed: 92898 Num episodes: 76 Episode length: 1540 Return: 1488.0 Normalized Return: 2.436
+
+Steps executed: 95795 Num episodes: 77 Episode length: 2897 Return: 2548.0 Normalized Return: 4.476
+
+Steps executed: 98069 Num episodes: 78 Episode length: 2274 Return: 2004.0 Normalized Return: 3.429
+
+Steps executed: 79200 Num episodes: 1 Episode length: 792 Return: 714.0 Normalized Return: 0.946
+
+Steps executed: 86130 Num episodes: 2 Episode length: 862 Return: 776.0 Normalized Return: 1.065
+
+Steps executed: 86130 Num episodes: 3 Episode length: 862 Return: 776.0 Normalized Return: 1.065
+
+Steps executed: 86130 Num episodes: 4 Episode length: 862 Return: 776.0 Normalized Return: 1.065
+
+Steps executed: 86130 Num episodes: 5 Episode length: 862 Return: 776.0 Normalized Return: 1.065
+
+Steps executed: 94110 Num episodes: 6 Episode length: 946 Return: 807.0 Normalized Return: 1.125
+
+Steps executed: 94110 Num episodes: 7 Episode length: 946 Return: 807.0 Normalized Return: 1.125
+
+Steps executed: 95040 Num episodes: 8 Episode length: 956 Return: 827.0 Normalized Return: 1.164
+
+Steps executed: 97892 Num episodes: 9 Episode length: 987 Return: 796.0 Normalized Return: 1.104
+
+Steps executed: 98074 Num episodes: 10 Episode length: 989 Return: 796.0 Normalized Return: 1.104
+
+Steps executed: 98524 Num episodes: 11 Episode length: 994 Return: 837.0 Normalized Return: 1.183
+
+Steps executed: 98524 Num episodes: 12 Episode length: 994 Return: 837.0 Normalized Return: 1.183
+
+Steps executed: 99932 Num episodes: 13 Episode length: 1010 Return: 745.0 Normalized Return: 1.006
+
+Steps executed: 100106 Num episodes: 14 Episode length: 1012 Return: 1038.0 Normalized Return: 1.57
+
+Steps executed: 100450 Num episodes: 15 Episode length: 1016 Return: 849.0 Normalized Return: 1.206
+
+Steps executed: 101725 Num episodes: 16 Episode length: 1031 Return: 870.0 Normalized Return: 1.246
+
+Steps executed: 102061 Num episodes: 17 Episode length: 1035 Return: 796.0 Normalized Return: 1.104
+
+Steps executed: 102061 Num episodes: 18 Episode length: 1035 Return: 796.0 Normalized Return: 1.104
+
+Steps executed: 102635 Num episodes: 19 Episode length: 1042 Return: 890.0 Normalized Return: 1.285
+
+Steps executed: 102635 Num episodes: 20 Episode length: 1042 Return: 890.0 Normalized Return: 1.285
+
+Steps executed: 102635 Num episodes: 21 Episode length: 1042 Return: 890.0 Normalized Return: 1.285
+
+Steps executed: 102635 Num episodes: 22 Episode length: 1042 Return: 890.0 Normalized Return: 1.285
+
+Steps executed: 103181 Num episodes: 23 Episode length: 1049 Return: 807.0 Normalized Return: 1.125
+
+Steps executed: 103181 Num episodes: 24 Episode length: 1049 Return: 807.0 Normalized Return: 1.125
+
+Steps executed: 103181 Num episodes: 25 Episode length: 1049 Return: 807.0 Normalized Return: 1.125
+
+Steps executed: 103256 Num episodes: 26 Episode length: 1050 Return: 837.0 Normalized Return: 1.183
+
+Steps executed: 103700 Num episodes: 27 Episode length: 1056 Return: 837.0 Normalized Return: 1.183
+
+Steps executed: 114869 Num episodes: 28 Episode length: 1209 Return: 1057.0 Normalized Return: 1.606
+
+Steps executed: 114869 Num episodes: 29 Episode length: 1209 Return: 1057.0 Normalized Return: 1.606
+
+Steps executed: 115366 Num episodes: 30 Episode length: 1216 Return: 1099.0 Normalized Return: 1.687
+
+Steps executed: 115786 Num episodes: 31 Episode length: 1222 Return: 1122.0 Normalized Return: 1.731
+
+Steps executed: 116062 Num episodes: 32 Episode length: 1226 Return: 889.0 Normalized Return: 1.283
+
+Steps executed: 117082 Num episodes: 33 Episode length: 1241 Return: 1162.0 Normalized Return: 1.808
+
+Steps executed: 117350 Num episodes: 34 Episode length: 1245 Return: 1300.0 Normalized Return: 2.074
+
+Steps executed: 122234 Num episodes: 35 Episode length: 1319 Return: 1352.0 Normalized Return: 2.174
+
+Steps executed: 124249 Num episodes: 36 Episode length: 1350 Return: 1143.0 Normalized Return: 1.772
+
+Steps executed: 124249 Num episodes: 37 Episode length: 1350 Return: 1143.0 Normalized Return: 1.772
+
+Steps executed: 124249 Num episodes: 38 Episode length: 1350 Return: 1143.0 Normalized Return: 1.772
+
+Steps executed: 124497 Num episodes: 39 Episode length: 1354 Return: 1130.0 Normalized Return: 1.747
+
+Steps executed: 125168 Num episodes: 40 Episode length: 1365 Return: 1244.0 Normalized Return: 1.966
+
+Steps executed: 125888 Num episodes: 41 Episode length: 1377 Return: 1340.0 Normalized Return: 2.151
+
+Steps executed: 126537 Num episodes: 42 Episode length: 1388 Return: 1321.0 Normalized Return: 2.114
+
+Steps executed: 127929 Num episodes: 43 Episode length: 1412 Return: 1308.0 Normalized Return: 2.089
+
+Steps executed: 129924 Num episodes: 44 Episode length: 1447 Return: 1204.0 Normalized Return: 1.889
+
+Steps executed: 131828 Num episodes: 45 Episode length: 1481 Return: 1372.0 Normalized Return: 2.212
+
+Steps executed: 133423 Num episodes: 46 Episode length: 1510 Return: 1562.0 Normalized Return: 2.578
+
+Steps executed: 137041 Num episodes: 47 Episode length: 1577 Return: 1403.0 Normalized Return: 2.272
+
+Steps executed: 137518 Num episodes: 48 Episode length: 1586 Return: 1636.0 Normalized Return: 2.721
+
+Steps executed: 137518 Num episodes: 49 Episode length: 1586 Return: 1636.0 Normalized Return: 2.721
+
+Steps executed: 138028 Num episodes: 50 Episode length: 1596 Return: 1296.0 Normalized Return: 2.066
+
+Steps executed: 141078 Num episodes: 51 Episode length: 1657 Return: 1506.0 Normalized Return: 2.47
+
+Steps executed: 142597 Num episodes: 52 Episode length: 1688 Return: 1529.0 Normalized Return: 2.515
+
+Steps executed: 143077 Num episodes: 53 Episode length: 1698 Return: 1699.0 Normalized Return: 2.842
+
+Steps executed: 143641 Num episodes: 54 Episode length: 1710 Return: 1689.0 Normalized Return: 2.823
+
+Steps executed: 144791 Num episodes: 55 Episode length: 1735 Return: 1688.0 Normalized Return: 2.821
+
+Steps executed: 144791 Num episodes: 56 Episode length: 1735 Return: 1688.0 Normalized Return: 2.821
+
+Steps executed: 151611 Num episodes: 57 Episode length: 1890 Return: 1602.0 Normalized Return: 2.655
+
+Steps executed: 152127 Num episodes: 58 Episode length: 1902 Return: 1803.0 Normalized Return: 3.042
+
+Steps executed: 153429 Num episodes: 59 Episode length: 1933 Return: 1749.0 Normalized Return: 2.938
+
+Steps executed: 155889 Num episodes: 60 Episode length: 1993 Return: 1635.0 Normalized Return: 2.719
+
+Steps executed: 156249 Num episodes: 61 Episode length: 2002 Return: 1856.0 Normalized Return: 3.144
+
+Steps executed: 158160 Num episodes: 62 Episode length: 2051 Return: 1908.0 Normalized Return: 3.244
+
+Steps executed: 158388 Num episodes: 63 Episode length: 2057 Return: 1992.0 Normalized Return: 3.406
+
+Steps executed: 158906 Num episodes: 64 Episode length: 2071 Return: 2244.0 Normalized Return: 3.891
+
+Steps executed: 159662 Num episodes: 65 Episode length: 2092 Return: 1812.0 Normalized Return: 3.059
+
+Steps executed: 160712 Num episodes: 66 Episode length: 2122 Return: 1888.0 Normalized Return: 3.206
+
+Steps executed: 162344 Num episodes: 67 Episode length: 2170 Return: 2013.0 Normalized Return: 3.446
+
+Steps executed: 163103 Num episodes: 68 Episode length: 2193 Return: 2108.0 Normalized Return: 3.629
+
+Steps executed: 163359 Num episodes: 69 Episode length: 2201 Return: 1886.0 Normalized Return: 3.202
+
+Steps executed: 164227 Num episodes: 70 Episode length: 2229 Return: 2138.0 Normalized Return: 3.687
+
+Steps executed: 164287 Num episodes: 71 Episode length: 2231 Return: 2159.0 Normalized Return: 3.727
+
+Steps executed: 167535 Num episodes: 72 Episode length: 2343 Return: 2391.0 Normalized Return: 4.174
+
+Steps executed: 167983 Num episodes: 73 Episode length: 2359 Return: 2412.0 Normalized Return: 4.214
+
+Steps executed: 168712 Num episodes: 74 Episode length: 2386 Return: 2043.0 Normalized Return: 3.504
+
+Steps executed: 169388 Num episodes: 75 Episode length: 2412 Return: 1938.0 Normalized Return: 3.302
+
+Steps executed: 169388 Num episodes: 76 Episode length: 2412 Return: 1938.0 Normalized Return: 3.302
+
+Steps executed: 169388 Num episodes: 77 Episode length: 2412 Return: 1938.0 Normalized Return: 3.302
+
+Steps executed: 169388 Num episodes: 78 Episode length: 2412 Return: 1938.0 Normalized Return: 3.302
+
+Steps executed: 169388 Num episodes: 79 Episode length: 2412 Return: 1938.0 Normalized Return: 3.302
+
+Steps executed: 169640 Num episodes: 80 Episode length: 2424 Return: 2308.0 Normalized Return: 4.014
+
+Steps executed: 169700 Num episodes: 81 Episode length: 2427 Return: 2158.0 Normalized Return: 3.725
+
+Steps executed: 170194 Num episodes: 82 Episode length: 2453 Return: 2339.0 Normalized Return: 4.074
+
+Steps executed: 170626 Num episodes: 83 Episode length: 2477 Return: 2285.0 Normalized Return: 3.97
+
+Steps executed: 172768 Num episodes: 84 Episode length: 2603 Return: 2361.0 Normalized Return: 4.116
+
+Steps executed: 173584 Num episodes: 85 Episode length: 2654 Return: 2433.0 Normalized Return: 4.254
+
+Steps executed: 174484 Num episodes: 86 Episode length: 2714 Return: 2412.0 Normalized Return: 4.214
+
+Steps executed: 175534 Num episodes: 87 Episode length: 2789 Return: 2203.0 Normalized Return: 3.812
+
+Steps executed: 175716 Num episodes: 88 Episode length: 2803 Return: 2474.0 Normalized Return: 4.333
+
+Steps executed: 175752 Num episodes: 89 Episode length: 2806 Return: 2473.0 Normalized Return: 4.331
+
+Steps executed: 176335 Num episodes: 90 Episode length: 2859 Return: 2370.0 Normalized Return: 4.133
+
+Steps executed: 176865 Num episodes: 91 Episode length: 2912 Return: 2905.0 Normalized Return: 5.163
+
+Steps executed: 177225 Num episodes: 92 Episode length: 2952 Return: 2561.0 Normalized Return: 4.501
+
+Steps executed: 177409 Num episodes: 93 Episode length: 2975 Return: 2831.0 Normalized Return: 5.02
+
+Steps executed: 177640 Num episodes: 94 Episode length: 3008 Return: 2812.0 Normalized Return: 4.984
+
+Steps executed: 178138 Num episodes: 95 Episode length: 3091 Return: 2925.0 Normalized Return: 5.201
+
+Steps executed: 178358 Num episodes: 96 Episode length: 3135 Return: 3122.0 Normalized Return: 5.58
+
+Steps executed: 178470 Num episodes: 97 Episode length: 3163 Return: 2841.0 Normalized Return: 5.04
+
+Steps executed: 178758 Num episodes: 98 Episode length: 3259 Return: 2977.0 Normalized Return: 5.301
+
+Steps executed: 178808 Num episodes: 99 Episode length: 3284 Return: 3134.0 Normalized Return: 5.604
+
+Steps executed: 178824 Num episodes: 100 Episode length: 3300 Return: 2895.0 Normalized Return: 5.144
