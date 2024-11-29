@@ -1,0 +1,78 @@
+# SPR (Schwarzer et al, 2021)
+import dopamine.jax.networks
+import dopamine.discrete_domains.gym_lib
+import dopamine.discrete_domains.run_experiment
+import bbf.spr_networks
+# import bbf.agents.spr_agent
+import bbf.agents.UPER_agent
+import bbf.replay_memory.subsequence_replay_buffer
+
+JaxDQNAgent.gamma = 0.997
+JaxDQNAgent.min_replay_history = 2000
+JaxDQNAgent.update_period = 1
+JaxDQNAgent.target_update_period = 1
+JaxDQNAgent.epsilon_train = 0.00
+JaxDQNAgent.epsilon_eval = 0.001
+JaxDQNAgent.epsilon_decay_period = 2001    # DrQ
+JaxDQNAgent.optimizer = 'adam'
+
+BBFUPERAgent.noisy = False
+BBFUPERAgent.dueling = True
+BBFUPERAgent.double_dqn = True
+BBFUPERAgent.distributional = True
+BBFUPERAgent.num_atoms = 51
+BBFUPERAgent.update_horizon = 3
+BBFUPERAgent.max_update_horizon = 10
+BBFUPERAgent.min_gamma = 0.97
+BBFUPERAgent.cycle_steps = 10_000
+BBFUPERAgent.reset_every = 20_000 # Change if you change the replay ratio
+BBFUPERAgent.shrink_perturb_keys = "encoder,transition_model"
+BBFUPERAgent.shrink_factor = 0.5
+BBFUPERAgent.perturb_factor = 0.5
+BBFUPERAgent.no_resets_after = 100_000 # Need to change if training longer
+BBFUPERAgent.log_every = 100
+BBFUPERAgent.replay_ratio = 64
+BBFUPERAgent.batches_to_group = 2
+BBFUPERAgent.batch_size = 32
+BBFUPERAgent.spr_weight = 5
+BBFUPERAgent.jumps = 5
+BBFUPERAgent.data_augmentation = True
+BBFUPERAgent.replay_scheme = 'prioritized'
+BBFUPERAgent.half_precision = False
+BBFUPERAgent.network    = @bbf.spr_networks.RainbowDQNEnsembleNetwork
+BBFUPERAgent.epsilon_fn = @jax.agents.dqn.dqn_agent.linearly_decaying_epsilon
+BBFUPERAgent.learning_rate = 0.0001
+BBFUPERAgent.encoder_learning_rate = 0.0001
+BBFUPERAgent.ensemble_size = 10
+
+BBFUPERAgent.target_update_tau = 0.005
+BBFUPERAgent.target_action_selection = True
+
+bbf.spr_networks.RainbowDQNEnsembleNetwork.renormalize = True
+bbf.spr_networks.RainbowDQNEnsembleNetwork.hidden_dim = 2048
+bbf.spr_networks.RainbowDQNEnsembleNetwork.encoder_type = "impala"
+bbf.spr_networks.RainbowDQNEnsembleNetwork.width_scale = 4
+bbf.spr_networks.RainbowDQNEnsembleNetwork.ensemble_size = 10
+bbf.spr_networks.ImpalaCNN.num_blocks = 2
+
+# Note these parameters are from DER (van Hasselt et al, 2019)
+bbf.agents.spr_agent.create_scaling_optimizer.eps = 0.00015
+bbf.agents.spr_agent.create_scaling_optimizer.weight_decay = 0.1
+
+DataEfficientAtariRunner.game_name = 'ChopperCommand'
+# Atari 100K benchmark doesn't use sticky actions.
+atari_lib.create_atari_environment.sticky_actions = False
+AtariPreprocessing.terminal_on_life_loss = True
+Runner.num_iterations = 1
+Runner.training_steps = 100000    # agent steps
+DataEfficientAtariRunner.num_eval_episodes = 100    # agent episodes
+DataEfficientAtariRunner.num_eval_envs = 100    # agent episodes
+DataEfficientAtariRunner.num_train_envs = 1    # agent episodes
+DataEfficientAtariRunner.max_noops = 30
+Runner.max_steps_per_episode = 27000    # agent steps
+
+bbf.replay_memory.subsequence_replay_buffer.PrioritizedJaxSubsequenceParallelEnvReplayBuffer.replay_capacity = 200000
+bbf.replay_memory.subsequence_replay_buffer.PrioritizedJaxSubsequenceParallelEnvReplayBuffer.n_envs = 1    # agent episodes
+bbf.replay_memory.subsequence_replay_buffer.JaxSubsequenceParallelEnvReplayBuffer.replay_capacity = 200000
+bbf.replay_memory.subsequence_replay_buffer.JaxSubsequenceParallelEnvReplayBuffer.n_envs = 1    # agent episodes
+

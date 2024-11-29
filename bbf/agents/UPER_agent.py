@@ -38,7 +38,6 @@ import tensorflow as tf
 
 from bbf import spr_networks
 from bbf.replay_memory import subsequence_replay_buffer
-from bbf.agents.UPER_agent import BBFUPERAgent
 
 
 def _pmap_device_order():
@@ -980,7 +979,7 @@ def create_scaling_optimizer(
 
 
 @gin.configurable
-class BBFAgent(dqn_agent.JaxDQNAgent):
+class BBFUPERAgent(dqn_agent.JaxDQNAgent):
   """A compact implementation of the full Rainbow agent."""
 
   def __init__(
@@ -992,7 +991,7 @@ class BBFAgent(dqn_agent.JaxDQNAgent):
       distributional=True,
       data_augmentation=False,
       num_updates_per_train_step=1,
-      network=spr_networks.RainbowDQNNetwork,
+      network=spr_networks.RainbowDQNEnsembleNetwork,
       num_atoms=51,
       vmax=10.0,
       vmin=None,
@@ -1040,87 +1039,9 @@ class BBFAgent(dqn_agent.JaxDQNAgent):
       verbose=False,
       seed=None,
       log_every=100,
+      ensemble_size=10,
   ):
-    """Initializes the agent and constructs the necessary components.
 
-    Args:
-      num_actions: int, number of actions the agent can take at any state.
-      noisy: bool, Whether to use noisy networks or not.
-      dueling: bool, Whether to use dueling network architecture or not.
-      double_dqn: bool, Whether to use Double DQN or not.
-      distributional: bool, whether to use distributional RL or not.
-      data_augmentation: bool, Whether to use data augmentation or not.
-      num_updates_per_train_step: int, Number of gradient updates every training
-        step. Defaults to 1.
-      network: flax.linen Module, neural network used by the agent initialized
-        by shape in _create_network below. See
-        dopamine.jax.networks.RainbowNetwork as an example.
-      num_atoms: int, the number of buckets of the value function distribution.
-      vmax: float, the value distribution support is [vmin, vmax].
-      vmin: float, the value distribution support is [vmin, vmax]. If vmin is
-        None, it is set to -vmax.
-      jumps: int, number of steps to predict in SPR.
-      spr_weight: float, weight of the SPR loss (in the format of Schwarzer et
-        al's code, not their paper, so 5.0 is default.)
-      batch_size: number of examples per batch.
-      replay_ratio: Average number of times an example is replayed during
-        training. Divide by batch_size to get the 'replay ratio' definition
-        based on gradient steps by D'Oro et al.
-      batches_to_group: Number of batches to group together into a single jit.
-      update_horizon: int, n-step return length.
-      max_update_horizon: int, n-step start point for annealing.
-      min_gamma: float, gamma start point for annealing.
-      epsilon_fn: function expecting 4 parameters: (decay_period, step,
-        warmup_steps, epsilon). This function should return the epsilon value
-        used for exploration during training.
-      replay_scheme: str, 'prioritized' or 'uniform', the sampling scheme of the
-        replay memory.
-      replay_type: str, 'deterministic' or 'regular', specifies the type of
-        replay buffer to create.
-      reset_every: int, how many training steps between resets. 0 to disable.
-      no_resets_after: int, training step to cease resets before.
-      reset_offset: offset to initial reset.
-      encoder_warmup: warmup steps for encoder optimizer.
-      head_warmup: warmup steps for head optimizer.
-      learning_rate: Learning rate for all non-encoder parameters.
-      encoder_learning_rate: Learning rate for the encoder (if different).
-      reset_target: bool, whether to reset target network on resets.
-      reset_head: bool, whether to reset head on resets.
-      reset_projection: bool, whether to reset penultimate layer on resets.
-      reset_encoder: bool, whether to reset encoder on resets.
-      reset_noise: bool, whether to reset noisy nets noise parameters (no effect
-        if noisy nets are disabled).
-      reset_priorities: bool, whether to reset priorities in replay buffer.
-      reset_interval_scaling: Optional float, ratio by which to increase reset
-        interval at each reset.
-      shrink_perturb_keys: string of comma-separated keys, such as
-        'encoder,transition_model', to which to apply shrink & perturb to.
-      perturb_factor: float, weight of random noise in shrink & perturb.
-      shrink_factor: float, weight of initial parameters in shrink & perturb.
-      target_update_tau: float, update parameter for EMA target network.
-      max_target_update_tau: float, highest value of tau for annealing cycles.
-      cycle_steps: int, number of steps to anneal hyperparameters after reset.
-      target_update_period: int, steps per target network update.
-      target_action_selection: bool, act according to the target network.
-      eval_noise: bool, use noisy nets in evaluation.
-      use_target_network: bool, enable the target network in training. Subtly
-        different from setting tau=1.0, as it allows action selection according
-        to an EMA policy, allowing decoupled investigation.
-      match_online_target_rngs: bool, use the same JAX prng key for both online
-        and target networks during training. Guarantees that dropout is aligned
-        between the two networks.
-      target_eval_mode: bool, run target network in eval mode, disabling dropout
-        etc.
-      offline_update_frac: float, fraction of a reset interval to do offline
-        after each reset to warm-start the new network. summary_writer=None,
-      summary_writer: SummaryWriter object, for outputting training statistics.
-      half_precision: bool, use fp16 in training. Doubles training throughput,
-        but may reduce final performance.
-      log_churn: bool, log policy churn metrics.
-      verbose: bool, also print metrics to stdout during training.
-      seed: int, a seed for Jax RNG and initialization.
-      log_every: int, training steps between metric logging calls.
-    """
     logging.info(
         "Creating %s agent with the following parameters:",
         self.__class__.__name__,
@@ -1144,6 +1065,7 @@ class BBFAgent(dqn_agent.JaxDQNAgent):
     self._noisy = bool(noisy)
     self._dueling = bool(dueling)
     self._distributional = bool(distributional)
+    self._ensemble_size = int(ensemble_size)
     self._data_augmentation = bool(data_augmentation)
     self._replay_ratio = int(replay_ratio)
     self._batch_size = int(batch_size)
@@ -1242,6 +1164,7 @@ class BBFAgent(dqn_agent.JaxDQNAgent):
             dueling=self._dueling,
             distributional=self._distributional,
             dtype=self.dtype,
+            ensemble_size=self._ensemble_size,
         ),
         epsilon_fn=epsilon_fn,
         target_update_period=self.target_update_period,

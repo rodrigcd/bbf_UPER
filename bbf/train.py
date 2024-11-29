@@ -42,6 +42,7 @@ import tensorflow.compat.v2 as tf
 
 from bbf import eval_run_experiment
 from bbf.agents import spr_agent
+from bbf.agents import UPER_agent
 
 FLAGS = flags.FLAGS
 CONFIGS_DIR = './configs'
@@ -54,6 +55,7 @@ AGENTS = [
     'SPR',
     'SR-SPR',
     'BBF',
+    'BBFUPER',
 ]
 
 # flags are defined when importing run_xm_preprocessing
@@ -160,11 +162,20 @@ def create_agent(
   """Helper function for creating agent."""
   if data_logging:
     raise NotImplementedError()
-  return spr_agent.BBFAgent(
-      num_actions=environment.action_space.n,
-      seed=seed,
-      summary_writer=summary_writer,
-  )
+  if FLAGS.agent == "BBF":
+    return spr_agent.BBFAgent(
+        num_actions=environment.action_space.n,
+        seed=seed,
+        summary_writer=summary_writer,
+    )
+  elif FLAGS.agent == "BBFUPER":
+    return UPER_agent.BBFUPERAgent(
+        num_actions=environment.action_space.n,
+        seed=seed,
+        summary_writer=summary_writer,
+    )
+  else:
+    raise ValueError(f"Unknown agent {FLAGS.agent}")
 
 
 def set_random_seed(seed):
@@ -217,6 +228,8 @@ def main(unused_argv):
   else:
     seed = FLAGS.run_number if not FLAGS.agent_seed else FLAGS.agent_seed
   set_random_seed(seed)
+  print("############ gin_files:", gin_files)
+  print("############ gin_bindings:", gin_bindings)
   run_experiment.load_gin_configs(gin_files, gin_bindings)
 
   write_config(base_dir, seed, FLAGS.tag, FLAGS.agent)

@@ -294,6 +294,65 @@ class LinearHead(nn.Module):
     return logits
 
 
+class LinearEnsembleHead(nn.Module):
+    """A linear DQN head supporting dueling networks and noisy networks
+    per members of the ensemble.
+
+    Attributes:
+      advantage: Advantage layer.
+      value: Value layer (if dueling).
+      noisy: Whether to use noisy nets.
+      dueling: Bool, whether to use dueling networks.
+      num_actions: int, size of action space.
+      num_atoms: int, number of value prediction atoms per action.
+      dtype: Jax dtype.
+      initializer: Jax initializer.
+      ensemble_size: int, number of ensemble members.
+    """
+    ensemble_size: int
+    noisy: bool
+    dueling: bool
+    num_actions: int
+    num_atoms: int
+    dtype: Dtype = jnp.float32
+    initializer: Any = nn.initializers.xavier_uniform()
+
+
+    def setup(self):
+        if self.dueling:
+            self.advantage = FeatureLayer(
+                self.noisy,
+                self.num_actions * self.num_atoms * self.ensemble_size,
+                dtype=self.dtype,
+                initializer=self.initializer,
+            )
+            self.value = FeatureLayer(
+                self.noisy,
+                self.num_atoms * self.ensemble_size,
+                dtype=self.dtype,
+                initializer=self.initializer,
+            )
+        else:
+            self.advantage = FeatureLayer(
+                self.noisy,
+                self.num_actions * self.num_atoms * self.ensemble_size,
+                dtype=self.dtype,
+                initializer=self.initializer,
+            )
+
+    def __call__(self, x, key, eval_mode):
+        if self.dueling:
+            adv = self.advantage(x, key, eval_mode)
+            value = self.value(x, key, eval_mode)
+            adv = adv.reshape((self.num_actions, self.num_atoms, self.ensemble_size))
+            value = value.reshape((1, self.num_atoms, self.ensemble_size))
+            logits = value + (adv - (jnp.mean(adv, axis=-3, keepdims=True)))
+        else:
+            x = self.advantage(x, key, eval_mode)
+            logits = x.reshape((self.num_actions, self.num_atoms, self.ensemble_size))
+        return logits
+
+
 def process_inputs(x, data_augmentation=False, rng=None, dtype=jnp.float32):
   """Input normalization and if specified, data augmentation."""
 
@@ -857,6 +916,141 @@ class RainbowDQNNetwork(nn.Module):
 
     if self.distributional:
       probabilities = jnp.squeeze(nn.softmax(logits))
+      q_values = jnp.squeeze(jnp.sum(support * probabilities, axis=-1))
+      return SPROutputType(
+          q_values, logits, probabilities, spatial_latent, representation
+      )
+
+    q_values = jnp.squeeze(logits)
+    return SPROutputType(q_values, None, None, spatial_latent, representation)
+
+
+@gin.configurable
+class RainbowDQNEnsembleNetwork(RainbowDQNNetwork):
+  """Jax Rainbow network for Full Rainbow.
+
+  Attributes:
+      num_actions: int, number of actions the agent can take at any state.
+      num_atoms: int, the number of buckets of the value function distribution.
+      noisy: bool, Whether to use noisy networks.
+      dueling: bool, Whether to use dueling network architecture.
+      distributional: bool, whether to use distributional RL.
+  """
+
+  num_actions: int
+  num_atoms: int
+  noisy: bool
+  dueling: bool
+  distributional: bool
+  renormalize: bool = False
+  padding: Any = 'SAME'
+  encoder_type: str = 'dqn'
+  hidden_dim: int = 512
+  width_scale: float = 1.0
+  dtype: Dtype = jnp.float32
+  use_spatial_learned_embeddings: bool = False
+  initializer_type: str = 'xavier_uniform'
+  ensemble_size: int = 10
+
+  def setup(self):
+    if self.initializer_type == InitializerType.XAVIER_UNIFORM:
+      initializer = nn.initializers.xavier_uniform()
+    elif self.initializer_type == InitializerType.XAVIER_NORMAL:
+      initializer = nn.initializers.xavier_normal()
+    elif self.initializer_type == InitializerType.KAIMING_UNIFORM:
+      initializer = nn.initializers.kaiming_uniform()
+    elif self.initializer_type == InitializerType.KAIMING_NORMAL:
+      initializer = nn.initializers.kaiming_normal()
+    elif self.initializer_type == InitializerType.ORTHOGONAL:
+      initializer = nn.initializers.orthogonal()
+    else:
+      raise NotImplementedError(
+          'Unsupported initializer: {}'.format(self.initializer_type)
+      )
+
+    if self.encoder_type == EncoderType.DQN:
+      self.encoder = RainbowCNN(
+          padding=self.padding,
+          width_scale=self.width_scale,
+          dtype=self.dtype,
+          initializer=initializer,
+      )
+      latent_dim = self.encoder.dims[-1] * self.width_scale
+    elif self.encoder_type == EncoderType.IMPALA:
+      self.encoder = ImpalaCNN(
+          width_scale=self.width_scale,
+          dtype=self.dtype,
+          initializer=initializer,
+      )
+      latent_dim = self.encoder.dims[-1] * self.width_scale
+    elif self.encoder_type == EncoderType.RESNET:
+      self.encoder = ResNetEncoder(
+          width_scale=self.width_scale,
+          dtype=self.dtype,
+      )
+      latent_dim = (self.encoder.num_filters
+                    * self.width_scale
+                    * 2**(len(self.encoder.stage_sizes) - 1))
+    else:
+      raise NotImplementedError()
+
+    self.transition_model = TransitionModel(
+        num_actions=self.num_actions,
+        latent_dim=int(latent_dim),
+        renormalize=self.renormalize,
+        dtype=self.dtype,
+        initializer=initializer,
+    )
+
+    if self.use_spatial_learned_embeddings:
+      self.embedder = SpatialLearnedEmbeddings(initializer=initializer)
+
+    self.projection = FeatureLayer(
+        self.noisy,
+        int(self.hidden_dim),
+        dtype=jnp.float32,
+        initializer=initializer,
+    )
+    self.predictor = nn.Dense(
+        int(self.hidden_dim), dtype=jnp.float32, kernel_init=initializer
+    )
+    self.head = LinearEnsembleHead(
+        num_actions=self.num_actions,
+        num_atoms=self.num_atoms,
+        ensemble_size=self.ensemble_size,
+        noisy=self.noisy,
+        dueling=self.dueling,
+        dtype=jnp.float32,
+        initializer=initializer,
+    )
+
+  @nn.compact
+  def __call__(
+      self,
+      x,
+      support,
+      actions=None,
+      do_rollout=False,
+      eval_mode=False,
+      key=None,
+  ):
+    # Generate a random number generation key if not provided
+    if key is None:
+      key = random.PRNGKey(int(time.time() * 1e6))
+
+    spatial_latent = self.encode(x, eval_mode)
+    representation = self.flatten_spatial_latent(spatial_latent)
+    # Single hidden layer
+    x = self.project(representation, key, eval_mode)
+    x = nn.relu(x)
+
+    logits = self.head(x, key, eval_mode)
+
+    if do_rollout:
+      spatial_latent = self.spr_rollout(spatial_latent, actions, key)
+
+    if self.distributional:
+      probabilities = jnp.squeeze(nn.softmax(logits), axis=1)
       q_values = jnp.squeeze(jnp.sum(support * probabilities, axis=-1))
       return SPROutputType(
           q_values, logits, probabilities, spatial_latent, representation
