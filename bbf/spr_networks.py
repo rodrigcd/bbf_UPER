@@ -34,6 +34,11 @@ SPROutputType = collections.namedtuple(
     'RL_network',
     ['q_values', 'logits', 'probabilities', 'latent', 'representation'],
 )
+SPREnsembleOutputType = collections.namedtuple(
+    'RL_network',
+    ['q_values', 'logits', 'probabilities', 'latent', 'representation', 'ensemble_q_values',
+     'ensemble_logits', 'ensemble_probabilities'],
+)
 PRNGKey = Any
 Array = Any
 Shape = Tuple[int]
@@ -1044,17 +1049,22 @@ class RainbowDQNEnsembleNetwork(RainbowDQNNetwork):
     x = self.project(representation, key, eval_mode)
     x = nn.relu(x)
 
-    logits = self.head(x, key, eval_mode)
+    ensemble_logits = self.head(x, key, eval_mode)
 
     if do_rollout:
       spatial_latent = self.spr_rollout(spatial_latent, actions, key)
 
     if self.distributional:
-      probabilities = jnp.squeeze(nn.softmax(logits), axis=1)
-      q_values = jnp.squeeze(jnp.sum(support * probabilities, axis=-1))
-      return SPROutputType(
-          q_values, logits, probabilities, spatial_latent, representation
+      logits = jnp.mean(ensemble_logits, axis=-1)
+      ensemble_probabilities = jnp.squeeze(nn.softmax(ensemble_logits, axis=1))
+      probabilities = jnp.mean(ensemble_probabilities, axis=-1)
+      ensemble_q_values = jnp.squeeze(jnp.sum(support[None, :, None] * ensemble_probabilities, axis=1))
+      q_values = jnp.mean(ensemble_q_values, axis=-1)
+      return SPREnsembleOutputType(
+        q_values, logits, probabilities, spatial_latent, representation, ensemble_q_values, ensemble_logits,
+        ensemble_probabilities
       )
 
-    q_values = jnp.squeeze(logits)
-    return SPROutputType(q_values, None, None, spatial_latent, representation)
+    ensemble_q_values = jnp.squeeze(ensemble_logits)
+    q_values = jnp.mean(ensemble_q_values, axis=-1)
+    return SPREnsembleOutputType(q_values, None, None, spatial_latent, representation)

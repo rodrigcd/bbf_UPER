@@ -44,6 +44,7 @@ BBFUPERAgent.epsilon_fn = @jax.agents.dqn.dqn_agent.linearly_decaying_epsilon
 BBFUPERAgent.learning_rate = 0.0001
 BBFUPERAgent.encoder_learning_rate = 0.0001
 BBFUPERAgent.ensemble_size = 10
+BBFUPERAgent.priority_variable = 'default'
 
 BBFUPERAgent.target_update_tau = 0.005
 BBFUPERAgent.target_action_selection = True

@@ -1,4 +1,4 @@
-python -m bbf.train \
+python -m bbf.train_uper \
     --agent=BBFUPER \
     --gin_files=bbf/configs/BBFUPER.gin \
     --base_dir=results/UPER \

@@ -453,9 +453,21 @@ def get_logits(model, states, actions, do_rollout, rng):
 
 
 @functools.partial(jax.vmap, in_axes=(None, 0, 0, None, 0), axis_name="batch")
+def get_ensemble_logits(model, states, actions, do_rollout, rng):
+  results = model(states, actions=actions, do_rollout=do_rollout, key=rng)[0]
+  return results.ensemble_logits, results.latent, results.representation
+
+
+@functools.partial(jax.vmap, in_axes=(None, 0, 0, None, 0), axis_name="batch")
 def get_q_values(model, states, actions, do_rollout, rng):
   results = model(states, actions=actions, do_rollout=do_rollout, key=rng)[0]
   return results.q_values, results.latent, results.representation
+
+
+@functools.partial(jax.vmap, in_axes=(None, 0, 0, None, 0), axis_name="batch")
+def get_ensemble_q_values(model, states, actions, do_rollout, rng):
+  results = model(states, actions=actions, do_rollout=do_rollout, key=rng)[0]
+  return results.ensemble_q_values, results.latent, results.representation
 
 
 @functools.partial(jax.vmap, in_axes=(None, 0, 0), axis_name="batch")
@@ -643,6 +655,7 @@ def train(
         target,
         spr_targets,
         loss_multipliers,
+        mask,
     ):
       """Computes the distributional loss for C51 or huber loss for DQN."""
 
@@ -658,19 +671,61 @@ def train(
             mutable=["batch_stats"],
         )
 
+      def probabilities_to_quantiles(probabilities, support):
+        """
+        THANKS CHAT GPT
+        Converts an array of probabilities and its respective support to quantiles.
+
+        Parameters:
+        - probabilities (jnp.ndarray): Array of probabilities. Must sum to 1.
+        - support (jnp.ndarray): Corresponding support values.
+        - num_quantiles (int): Number of quantiles to compute.
+
+        Returns:
+        - quantiles (jnp.ndarray): Array of quantile values of the given size.
+        """
+        # Ensure probabilities sum to 1
+        num_quantiles = len(support)
+        probabilities = probabilities / jnp.sum(probabilities)
+
+        # Compute the cumulative distribution function (CDF)
+        cdf = jnp.cumsum(probabilities)
+
+        # Generate quantile levels (linspace between 0 and 1), in between the bins
+        quantile_levels = jnp.linspace(0, 1, num_quantiles + 1)
+        quantile_levels = jnp.diff(quantile_levels) / 2 + quantile_levels[:-1]
+
+        # Interpolate to find the support values at these quantile levels
+        quantiles = jnp.interp(quantile_levels, cdf, support)
+        return quantiles
+
+      data_quantiles = jax.vmap(jax.vmap(probabilities_to_quantiles, in_axes=(0, None)), in_axes=(-1, None))
+
       if distributional:
-        (logits, spr_predictions, _) = get_logits(
+        (logits, spr_predictions, _) = get_ensemble_logits(
             q_online, current_state, actions[:, :-1], use_spr, batch_rngs
         )
-        logits = jnp.squeeze(logits)
+        # logits = jnp.squeeze(logits)
         # Fetch the logits for its selected action. We use vmap to perform this
         # indexing across the batch.
         chosen_action_logits = jax.vmap(lambda x, y: x[y])(
             logits, actions[:, 0]
         )
-        dqn_loss = jax.vmap(losses.softmax_cross_entropy_loss_with_logits)(
-            target, chosen_action_logits)
+        dqn_loss_func = jax.vmap(losses.softmax_cross_entropy_loss_with_logits, in_axes=(0, 0))
+        all_ensemble_dqn_loss = jax.vmap(dqn_loss_func, in_axes=(None, -1))(target, chosen_action_logits)
+        # all_ensemble_dqn = jax.vmap(dqn_loss_func)(target, chosen_action_logits)
+        # dqn_loss = jax.vmap(losses.softmax_cross_entropy_loss_with_logits)(
+        #     target, chosen_action_logits)
+        dqn_loss = jnp.mean(all_ensemble_dqn_loss*mask[:, None], axis=0)
         td_error = dqn_loss + jnp.nan_to_num(target * jnp.log(target)).sum(-1)
+
+        ##### UPER Uncertainty computation #####
+        probabilities = jax.nn.softmax(chosen_action_logits, axis=1)
+        quantiles = data_quantiles(probabilities, support)
+        epistemic_uncertainty = jnp.mean(jnp.var(quantiles, axis=0), axis=-1)
+        aleatoric_uncertainty = jnp.var(jnp.mean(quantiles, axis=0), axis=-1)
+        information_gain = 0.5 * jnp.log(1+(epistemic_uncertainty+td_error**2)/(aleatoric_uncertainty+1e-10))
+
       else:
         q_values, spr_predictions, _ = get_q_values(
             q_online, current_state, actions[:, :-1], use_spr, batch_rngs
@@ -679,6 +734,7 @@ def train(
         replay_chosen_q = jax.vmap(lambda x, y: x[y])(q_values, actions[:, 0])
         dqn_loss = jax.vmap(losses.huber_loss)(target, replay_chosen_q)
         td_error = dqn_loss
+        information_gain = jnp.ones_like(td_error)
 
       if use_spr:
         spr_predictions = spr_predictions.transpose(1, 0, 2)
@@ -701,6 +757,9 @@ def train(
           "DQNLoss": jnp.mean(dqn_loss),
           "TD Error": jnp.mean(td_error),
           "SPRLoss": jnp.mean(spr_loss),
+          "batchDQNLoss": dqn_loss,
+          "batch_td_error": td_error,
+          "batch_info_gain": information_gain,
       }
 
       return mean_loss, (aux_losses)
@@ -728,6 +787,12 @@ def train(
     else:
       spr_targets = None
 
+    #### UPER ####
+    # Create a random mask of the size of the ensemble
+    mask_rng, _ = jax.random.split(rng1, num=2)
+    ensemble_size = network_def.ensemble_size
+    mask = jax.random.bernoulli(mask_rng, p=0.5, shape=(ensemble_size,))
+
     # Get the unweighted loss without taking its mean for updating priorities.
 
     if dynamic_scale:
@@ -742,6 +807,7 @@ def train(
           target,
           spr_targets,
           loss_weights,
+          mask,
       )
     else:
       grad_fn = jax.value_and_grad(loss_fn, has_aux=True)
@@ -750,6 +816,7 @@ def train(
           target,
           spr_targets,
           loss_weights,
+          mask,
       )
 
     grad_norm = tree_norm(grad)
@@ -1040,6 +1107,7 @@ class BBFUPERAgent(dqn_agent.JaxDQNAgent):
       seed=None,
       log_every=100,
       ensemble_size=10,
+      priority_variable="default",
   ):
 
     logging.info(
@@ -1054,6 +1122,7 @@ class BBFUPERAgent(dqn_agent.JaxDQNAgent):
     logging.info("\t replay_scheme: %s", replay_scheme)
     logging.info("\t num_updates_per_train_step: %d",
                  num_updates_per_train_step)
+    logging.info("\t priority_variable: %s", priority_variable)
     # We need casting because passing arguments can convert ints to floats
     vmax = float(vmax)
     self._num_atoms = int(num_atoms)
@@ -1076,6 +1145,7 @@ class BBFUPERAgent(dqn_agent.JaxDQNAgent):
     self.log_every = int(log_every)
     self.verbose = verbose
     self.log_churn = log_churn
+    self.priority_variable = priority_variable
 
     self.reset_every = int(reset_every)
     self.reset_target = reset_target
@@ -1568,8 +1638,19 @@ class BBFUPERAgent(dqn_agent.JaxDQNAgent):
       # technically this may be okay, setting all items to 0 priority will
       # cause troubles, and also result in 1.0 / 0.0 = NaN correction terms.
       indices = onp.reshape(onp.asarray(indices), (-1,))
-      dqn_loss = onp.reshape(onp.asarray(aux_losses["DQNLoss"]), (-1))
-      priorities = onp.sqrt(dqn_loss + 1e-10)
+      if self.priority_variable == "default":
+        dqn_loss = onp.reshape(onp.asarray(aux_losses["DQNLoss"]), (-1))
+        priorities = onp.sqrt(dqn_loss + 1e-10)
+      elif self.priority_variable == "PER":
+        td_error = onp.reshape(onp.asarray(aux_losses["batch_td_error"]), (-1))
+        priorities = onp.abs(td_error) + 1e-10
+      elif self.priority_variable == "UPER":
+        info_gain = onp.reshape(onp.asarray(aux_losses["batch_info_gain"]), (-1))
+        priorities = onp.abs(info_gain) + 1e-10
+      else:
+        # Unknown priority variable
+        raise ValueError("Unknown priority variable: {}".format(
+            self.priority_variable))
       self._replay.set_priority(indices, priorities)
     prio_set_time = time.time() - prio_set_start
 
