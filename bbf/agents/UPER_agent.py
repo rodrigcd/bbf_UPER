@@ -716,7 +716,7 @@ def train(
         # all_ensemble_dqn = jax.vmap(dqn_loss_func)(target, chosen_action_logits)
         # dqn_loss = jax.vmap(losses.softmax_cross_entropy_loss_with_logits)(
         #     target, chosen_action_logits)
-        dqn_loss = jnp.mean(all_ensemble_dqn_loss*mask[:, None], axis=0)
+        dqn_loss = jnp.sum(all_ensemble_dqn_loss*mask[:, None], axis=0)
         td_error = dqn_loss + jnp.nan_to_num(target * jnp.log(target)).sum(-1)
 
         ##### UPER Uncertainty computation #####

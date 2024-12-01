@@ -49,7 +49,7 @@ def generate_script(game, run, exp_name, priority_var):
 
     run_name = f"{game}_{priority_var}_{run}"
     gin_path = os.path.join(BASE_PATH, "bbf/configs/BBFUPER.gin")
-    results_path = os.path.join(BASE_PATH, "results/"+priority_var+"/"+run_name)
+    results_path = os.path.join(BASE_PATH, "results/sum_ens_loss/"+priority_var+"/"+run_name)
 
     all_text = f"python -m bbf.train_uper "
     all_text += f"--agent=BBFUPER "

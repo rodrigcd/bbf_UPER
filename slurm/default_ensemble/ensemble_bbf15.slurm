@@ -15,4 +15,4 @@ eval "$(conda shell.bash hook)"
 conda activate bbf2
 nvidia-smi
 python -c "from jax.lib import xla_bridge;print(xla_bridge.get_backend().platform)"
-python -m bbf.train_uper --agent=BBFUPER --gin_files=/nfs/nhome/live/rcdavis/bbf_UPER/bbf/configs/BBFUPER.gin --base_dir=/nfs/nhome/live/rcdavis/bbf_UPER/results/default/ChopperCommand_default_3 --run_number=3 --game_name=ChopperCommand --priority_variable=default 
+python -m bbf.train_uper --agent=BBFUPER --gin_files=/nfs/nhome/live/rcdavis/bbf_UPER/bbf/configs/BBFUPER.gin --base_dir=/nfs/nhome/live/rcdavis/bbf_UPER/results/sum_ens_loss/default/ChopperCommand_default_3 --run_number=3 --game_name=ChopperCommand --priority_variable=default 
