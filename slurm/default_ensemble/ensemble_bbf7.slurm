@@ -15,4 +15,4 @@ eval "$(conda shell.bash hook)"
 conda activate bbf2
 nvidia-smi
 python -c "from jax.lib import xla_bridge;print(xla_bridge.get_backend().platform)"
-python -m bbf.train_uper --agent=BBFUPER --gin_files=/nfs/nhome/live/rcdavis/bbf_UPER/bbf/configs/BBFUPER.gin --base_dir=/nfs/nhome/live/rcdavis/bbf_UPER/results/sum_ens_loss/default/Asterix_default_2 --run_number=2 --game_name=Asterix --priority_variable=default 
+python -m bbf.train_uper --agent=BBFUPER --gin_files=/nfs/nhome/live/rcdavis/bbf_UPER/bbf/configs/BBFUPER.gin --base_dir=/nfs/nhome/live/rcdavis/bbf_UPER/results/proper_td_error/default/Asterix_default_2 --run_number=2 --game_name=Asterix --priority_variable=default 

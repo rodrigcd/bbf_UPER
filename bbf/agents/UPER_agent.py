@@ -719,12 +719,32 @@ def train(
         dqn_loss = jnp.sum(all_ensemble_dqn_loss*mask[:, None], axis=0)
         td_error = dqn_loss + jnp.nan_to_num(target * jnp.log(target)).sum(-1)
 
+        average_logits = jnp.mean(chosen_action_logits, axis=-1)
+        ensemble_avg_dqn_loss = jax.vmap(losses.softmax_cross_entropy_loss_with_logits, in_axes=(0, 0))(target, average_logits)
+
         ##### UPER Uncertainty computation #####
         probabilities = jax.nn.softmax(chosen_action_logits, axis=1)
+        full_q = probabilities * support[None, :, None]
+        target_mean_reward = jnp.sum(target*support[None, :], axis=-1)
+        est_mean_reward = jnp.mean(jnp.sum(full_q, axis=1), axis=1)
+        reward_td_error = jax.lax.stop_gradient(target_mean_reward - est_mean_reward)
+
+        # Computing uncertainty in categorical distribution
+
+        epistemic_uncertainty = jax.lax.stop_gradient(jnp.mean(jnp.var(full_q, axis=-1), axis=-1))
+        aleatoric_uncertainty = jax.lax.stop_gradient(jnp.var(jnp.mean(full_q, axis=-1), axis=-1))
+        information_gain_cat = 0.5 * jnp.log(1+(epistemic_uncertainty+ensemble_avg_dqn_loss)/(aleatoric_uncertainty+1e-10))
+        information_gain_cat_reward = 0.5 * jnp.log(1+(reward_td_error**2+epistemic_uncertainty)/(aleatoric_uncertainty+1e-10))
+
+        # Computing quantiles
         quantiles = data_quantiles(probabilities, support)
-        epistemic_uncertainty = jnp.mean(jnp.var(quantiles, axis=0), axis=-1)
-        aleatoric_uncertainty = jnp.var(jnp.mean(quantiles, axis=0), axis=-1)
-        information_gain = 0.5 * jnp.log(1+(epistemic_uncertainty+td_error**2)/(aleatoric_uncertainty+1e-10))
+        epistemic_uncertainty = jax.lax.stop_gradient(jnp.mean(jnp.var(quantiles, axis=0), axis=-1))
+        aleatoric_uncertainty = jax.lax.stop_gradient(jnp.var(jnp.mean(quantiles, axis=0), axis=-1))
+        information_gain_quant = 0.5 * jnp.log(1+(epistemic_uncertainty+ensemble_avg_dqn_loss)/(aleatoric_uncertainty+1e-10))
+        information_gain_quant_reward = 0.5 * jnp.log(
+          1 + (reward_td_error ** 2 + epistemic_uncertainty) / (aleatoric_uncertainty + 1e-10))
+        # Computing proper td-error to add to information gain, need to consider later classification loss,
+        # similar but not the same as in https://arxiv.org/pdf/2204.09308
 
       else:
         q_values, spr_predictions, _ = get_q_values(
@@ -734,7 +754,11 @@ def train(
         replay_chosen_q = jax.vmap(lambda x, y: x[y])(q_values, actions[:, 0])
         dqn_loss = jax.vmap(losses.huber_loss)(target, replay_chosen_q)
         td_error = dqn_loss
-        information_gain = jnp.ones_like(td_error)
+        information_gain_quant = jnp.ones_like(td_error)
+        information_gain_cat = jnp.ones_like(td_error)
+        information_gain_quant_reward = jnp.ones_like(td_error)
+        information_gain_cat_reward = jnp.ones_like(td_error)
+        reward_td_error = 0  # This will never be used
 
       if use_spr:
         spr_predictions = spr_predictions.transpose(1, 0, 2)
@@ -758,8 +782,11 @@ def train(
           "TD Error": jnp.mean(td_error),
           "SPRLoss": jnp.mean(spr_loss),
           "batchDQNLoss": dqn_loss,
-          "batch_td_error": td_error,
-          "batch_info_gain": information_gain,
+          "batch_td_error": reward_td_error,
+          "batch_info_gain_quant": information_gain_quant,
+          "batch_info_gain_cat": information_gain_cat,
+          "information_gain_quant_reward": information_gain_quant_reward,
+          "information_gain_cat_reward": information_gain_cat_reward,
       }
 
       return mean_loss, (aux_losses)
@@ -1644,8 +1671,17 @@ class BBFUPERAgent(dqn_agent.JaxDQNAgent):
       elif self.priority_variable == "PER":
         td_error = onp.reshape(onp.asarray(aux_losses["batch_td_error"]), (-1))
         priorities = onp.abs(td_error) + 1e-10
-      elif self.priority_variable == "UPER":
-        info_gain = onp.reshape(onp.asarray(aux_losses["batch_info_gain"]), (-1))
+      elif self.priority_variable == "UPER_quant":
+        info_gain = onp.reshape(onp.asarray(aux_losses["batch_info_gain_quant"]), (-1))
+        priorities = onp.abs(info_gain) + 1e-10
+      elif self.priority_variable == "UPER_cat":
+        info_gain = onp.reshape(onp.asarray(aux_losses["batch_info_gain_cat"]), (-1))
+        priorities = onp.abs(info_gain) + 1e-10
+      elif self.priority_variable == "UPER_quant_r":
+        info_gain = onp.reshape(onp.asarray(aux_losses["batch_info_gain_quant_reward"]), (-1))
+        priorities = onp.abs(info_gain) + 1e-10
+      elif self.priority_variable == "UPER_cat_r":
+        info_gain = onp.reshape(onp.asarray(aux_losses["batch_info_gain_cat_reward"]), (-1))
         priorities = onp.abs(info_gain) + 1e-10
       else:
         # Unknown priority variable
