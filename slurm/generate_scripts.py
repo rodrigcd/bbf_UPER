@@ -62,7 +62,7 @@ def generate_script(game, run, exp_name, priority_var):
     return all_text
 
 def main():
-    n_runs = 5
+    n_runs = 3
     games = ["Asterix",
              "ChopperCommand",
              "Assault",
