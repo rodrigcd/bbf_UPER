@@ -785,8 +785,8 @@ def train(
           "batch_td_error": reward_td_error,
           "batch_info_gain_quant": information_gain_quant,
           "batch_info_gain_cat": information_gain_cat,
-          "information_gain_quant_reward": information_gain_quant_reward,
-          "information_gain_cat_reward": information_gain_cat_reward,
+          "batch_info_gain_quant_reward": information_gain_quant_reward,
+          "batch_info_gain_cat_reward": information_gain_cat_reward,
       }
 
       return mean_loss, (aux_losses)
